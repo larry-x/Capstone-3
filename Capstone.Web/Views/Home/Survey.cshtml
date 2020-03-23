@@ -1,0 +1,57 @@
+﻿@model Survey
+
+@{
+    ViewData["Title"] = "Survey";
+}
+
+<div id="survey">
+    <h2>Survey</h2>
+
+    <p>Your opinion is a value to us. Please let us know about your experience with National Parks Geek service. Let us know which park you stayed at, email address, state residence, and your daily activity level.</p>
+    <hr />
+    
+    <form asp-controller="Home" asp-action="Survey" method="post">
+        <div id="survey-grid">
+            <div class="label-group1">
+                <label asp-for="Code" class="control-label">Favorite National Park</label>
+            </div>
+            <div class="form-group1">
+                <select asp-for="Code" asp-items="Model.Parks" class="form-control"></select>
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+
+            <div class="label-group2">
+                <label asp-for="EmailAddress" class="control-label">Your email</label>
+            </div>
+            <div class="form-group2">
+                <input asp-for="EmailAddress" class="form-control" />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+
+            <div class="label-group3">
+                <label asp-for="State" class="control-label">State of residence</label>
+            </div>
+            <div class="form-group3">
+                <select asp-for="State" asp-items="Model.States" class="form-control"></select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+
+            <div class="label-group4">
+                <label asp-for="ActivityLevel" class="control-label">Activity Level</label>
+            </div>
+            <div class="form-group4">
+                <input type="radio" asp-for="ActivityLevel" value="inactive" name="ActivityLevel" checked="checked" />Inactive
+                <input type="radio" asp-for="ActivityLevel" value="sedentary" name="ActivityLevel" />Sedentary
+                <input type="radio" asp-for="ActivityLevel" value="active" name="ActivityLevel" />Active
+                <input type="radio" asp-for="ActivityLevel" value="extremely active" name="ActivityLevel" />Extremely Active
+                <span asp-validation-for="ActivityLevel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group5">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    
+</div>
+

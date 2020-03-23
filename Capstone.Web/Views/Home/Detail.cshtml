@@ -1,0 +1,62 @@
+﻿@model ParkViewModel
+
+@{
+    ViewData["Title"] = "Detail";
+    string forecastImage(string forecast)
+    {
+        string resultMessage = (forecast == "partly cloudy") ? "partlyCloudy" : forecast;
+        return resultMessage;
+    }
+}
+
+}
+<div id="detail">
+    <img src="~/img/parks/@(Model.MyPark.Code).jpg" />
+    <h2>@Model.MyPark.Name</h2>
+    <h3>@Model.MyPark.Quote - @Model.MyPark.QuoteSource</h3>
+    <p>@Model.MyPark.Description</p>
+    <p>@(Model.MyPark.Name), located in the beautiful state of @Model.MyPark.State with an elevation of @(Model.MyPark.Elevation) feet, was founded in @(Model.MyPark.YearFounded). It has @Model.MyPark.Acreage acres of @Model.MyPark.Climate paradise, @Model.MyPark.NumberOfAnimalSpecies different animal species to see, and @Model.MyPark.TrailMiles trail miles to explore. @(Model.MyPark.Name), with an annual visitor count of @(Model.MyPark.AnnualVisitorCount), also has @Model.MyPark.NumberOfCampsites campsites to enjoy. With an entry fee of only $@Model.MyPark.EntryFee what is stopping you from coming today?  </p>
+
+    @if (Model.TemperatureModeIsF)
+    {
+        <form asp-controller="Home" asp-action="Detail" method="post">
+            <button type="submit">Convert to Celsius</button>
+        </form>
+    }
+    else
+    {
+        <form asp-controller="Home" asp-action="Detail" method="post">
+            <button type="submit">Convert to Farenheit</button>
+        </form>
+    }
+    <div id="weather">
+
+        @foreach (Weather today in Model.ThisWeekWeather)
+        {
+        <div class="day-@today.DayNumber">
+            @if (today.DayNumber == 1)
+            {
+                <h4>Today</h4>
+            }
+
+            <img src="~/img/weather/@(forecastImage(today.Forecast)).png" />
+
+            @if (!Model.TemperatureModeIsF)
+            {
+                double high = ((today.High - 32) * 5) / 9;
+                double low = ((today.Low - 32) * 5) / 9;
+            <p>High  @high °C </p>
+            <p>Low   @low °C</p>
+            }
+            else
+            {
+            <p>High  @today.High °F  </p>
+            <p>Low   @today.Low °F</p>
+            }
+
+            <p>@today.Recommendation</p>
+        </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model IDictionary<Park, int>
+
+@{
+    ViewData["Title"] = "Favorites";
+}
+<div id="favorites">
+    <h2>Favorite Parks</h2>
+    <p>We collected your feedback over the many years and lovingly crafted them into this beautiful page to show you the most highly rated parks. </p>
+
+
+    @foreach (KeyValuePair<Park, int> kvp in Model)
+    {
+    <div class="ranking">
+        <img src="~/img/parks/@(kvp.Key.Code).jpg" />
+        <h4>@kvp.Key.Name</h4>
+        <h4>Number of votes: @kvp.Value</h4>
+    </div>
+    }
+</div>
