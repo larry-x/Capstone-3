@@ -9,6 +9,6 @@ namespace Capstone.Web.Models
     {
         public Park MyPark { get; set; }
         public IList<Weather> ThisWeekWeather { get; set; }
-        public bool TemperatureModeIsF { get; set; }
+        public bool? TemperatureModeIsF { get; set; }
     }
 }

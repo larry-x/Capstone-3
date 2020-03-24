@@ -31,19 +31,18 @@ namespace Capstone.Web.Controllers
             ParkViewModel model = new ParkViewModel();
             model.MyPark = parkDAO.GetParkById(id);
             model.ThisWeekWeather = parkDAO.GetWeather(id);
-            model.TemperatureModeIsF = true;
-            SaveSession(model);
+            model.TemperatureModeIsF = GetSession();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Detail()
-        {   
-            ParkViewModel model = GetSession();
-            model.TemperatureModeIsF = !model.TemperatureModeIsF;
-            SaveSession(model);
-            return View(model);
+        public IActionResult TConversion(ParkViewModel model)
+        {
+            bool temperature = GetSession();
+            temperature = !temperature;
+            SaveSession(temperature);
+            return RedirectToAction("Detail", new { id = model.MyPark.Code });
         }
 
         [HttpGet]
@@ -82,22 +81,22 @@ namespace Capstone.Web.Controllers
             return View(listOfFavorites);
         }
 
-        private void SaveSession(ParkViewModel temp)
+        private void SaveSession(bool temp)
         {
             HttpContext.Session.Set("CF", temp);
         }
 
-        private ParkViewModel GetSession()
+        private bool GetSession()
         {
-            ParkViewModel temp = null;
-            if (HttpContext.Session.Get<ParkViewModel>("CF") == null)
+            bool temp;
+            if (HttpContext.Session.Get<bool?>("CF") == null)
             {
-                temp = new ParkViewModel();
+                temp = true;
                 SaveSession(temp);
             }
             else
             {
-                temp = HttpContext.Session.Get<ParkViewModel>("CF");
+                temp = HttpContext.Session.Get<bool>("CF");
             }
             return temp;
         }
